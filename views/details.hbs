@@ -31,7 +31,9 @@
                 </div>
             </td>
             <td>
-                <button>Back</button>
+                <form method="GET" action="/index.html">
+                    <button type="submit">Back</button>
+                </form>
             </td>
         </tr>
     </table>
@@ -53,13 +55,12 @@
             <form method="GET" action="/details">
                 <input type="hidden" name="q" value="{{gameDetails.gid}}">
                 <input type="hidden" name="offset" value="{{prev_pg}}">
-                <input type="hidden" name="count" value="{{count}}">
                 <button type="submit" {{disable_prev}}>Previous</button>
             </form>
-            <form method="GET" action="/search">
+            Total {{commentcount}} comments
+            <form method="GET" action="/details">
                 <input type="hidden" name="q" value="{{gameDetails.gid}}">
                 <input type="hidden" name="offset" value="{{next_pg}}">
-                <input type="hidden" name="count" value="{{count}}">
                 <button type="submit" {{disable_next}}>Next</button>
             </form>
         </div>

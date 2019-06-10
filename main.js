@@ -25,10 +25,13 @@ const SQL_SELECT_GAMES_WHERE =
     'select gid, name from game where name like ?';
 
 const SQL_SELECT_GAMEID_WHERE = 
-    'select name, year,ranking, users_rated, url, image from game where gid = ?';
+    'select gid, name, year,ranking, users_rated, url, image from game where gid = ?';
 
 const SQL_SELECT_COMMENT_WHERE = 
-    'select user, rating,c_text, gid from comment where gid = ?';
+    'select user, rating,c_text, gid from comment where gid = ? limit ? offset ?';
+
+const SQL_SELECT_COMMENTCOUNT_WHERE = 
+    'select count(*) as comment_count from comment where gid = ?';
 
 
 //Promises
@@ -53,6 +56,7 @@ const mkQuery = (sql, pool) => {
 const selectGames = mkQuery(SQL_SELECT_GAMES_WHERE, bggPool);
 const selectGameId = mkQuery(SQL_SELECT_GAMEID_WHERE, bggPool);
 const selectComment = mkQuery(SQL_SELECT_COMMENT_WHERE, bggPool);
+const CommentCount = mkQuery(SQL_SELECT_COMMENTCOUNT_WHERE, bggPool);
 
 //Routes
 app.get('/search', (req, resp)=>{
@@ -81,17 +85,30 @@ app.get('/search', (req, resp)=>{
 
 app.get('/details', (req, resp)=>{
     const q = req.query.q;    
+    const offset = req.query.offset;    
 
-    Promise.all([ selectGameId([`${q}`]), selectComment([`${q}`])])
+    let x;
+    if(offset == null)
+    { x = 0;}
+    else
+    { x = parseInt(offset);}
+
+    
+    Promise.all([ selectGameId([`${q}`]), selectComment([`${q}`, 5, x]), CommentCount([`${q}`])])
     .then(result => {
 
-        //console.log(result[1]);
+        console.log(result[0][0]);
 
         resp.status(200);
         resp.type('text/html');
         resp.render('details', { 
             gameDetails: result[0][0],
             comments: result[1],
+            commentcount: result[2][0].comment_count,
+			prev_pg: x - 5,
+			next_pg: x + 5 ,
+            disable_prev: (x <= 0)? "disabled": "",
+			disable_next: ((x + 5) >= result[2][0].comment_count)? "disabled": "",
             layout: false 
         });
     })
