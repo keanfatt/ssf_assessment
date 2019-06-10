@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    {{#if noResult}}
+        <h2>Your query of '{{ gameName }}' returns no result</h2>
+    {{else}}
+        <h1>Games with '{{gameName}}'</h1>
+        <table border="1">
+            <thead>
+            <tr>
+            <th>Name</th>
+            </tr>
+            </thead>
+            
+            {{#each games}}
+            <tr>
+            <td>
+                <form method="GET" action="/details">
+                    <input type="hidden" name="q" value="{{this.gid}}">
+                    <button type="submit" class="transparentButton">{{this.name}}</button>
+                    </form>
+            </td>
+            </tr>
+            {{/each}}
+        </table>
+    {{/if}}
+</body>
+</html>

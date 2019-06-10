@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{gameDetails.name}}</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <table class="noBorderTable">
+        <tr>
+            <td>
+                <img src="{{gameDetails.image}}">
+            </td>
+            <td>
+                <div>
+                    Name:
+                    {{gameDetails.name}}
+                    <br>
+                    Published:
+                    {{gameDetails.year}}
+                    <br>
+                    Ranking:
+                    {{gameDetails.ranking}}
+                    <br>
+                    Users Rated:
+                    {{gameDetails.users_rated}}
+                    <br>
+                    <a href={{gameDetails.url}}>View on Boardgame</a>
+                </div>
+            </td>
+            <td>
+                <button>Back</button>
+            </td>
+        </tr>
+    </table>
+
+    <h1>Comments</h1>
+
+  {{#each comments}}
+  <table border="1" width="100%" >
+        <tr>
+            <td>User: {{this.user}}<br>
+            Rating: {{this.rating}}<br>
+            {{this.c_text}}</td>
+        </tr>
+    </table>
+    <br>
+{{/each}}
+
+ <div class="row-align">
+            <form method="GET" action="/details">
+                <input type="hidden" name="q" value="{{gameDetails.gid}}">
+                <input type="hidden" name="offset" value="{{prev_pg}}">
+                <input type="hidden" name="count" value="{{count}}">
+                <button type="submit" {{disable_prev}}>Previous</button>
+            </form>
+            <form method="GET" action="/search">
+                <input type="hidden" name="q" value="{{gameDetails.gid}}">
+                <input type="hidden" name="offset" value="{{next_pg}}">
+                <input type="hidden" name="count" value="{{count}}">
+                <button type="submit" {{disable_next}}>Next</button>
+            </form>
+        </div>
+</body>
+</html>

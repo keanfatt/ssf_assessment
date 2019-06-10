@@ -1,0 +1,33 @@
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    text-align:left;
+    border-color: inherit;
+  }
+
+  .transparentButton {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table {
+  border: 1px solid black;
+}
+
+.noBorderTable {
+  border: 0px;
+}
+
+.row-align {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
